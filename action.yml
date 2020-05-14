@@ -8,7 +8,7 @@ inputs:
   committer_name:
     description: Name on whose behalf a commit will be made.
     required: true
-  comitter_email:
+  committer_email:
     description: Email on whose behalf a commit will be made.
     required: true
   commit_message:

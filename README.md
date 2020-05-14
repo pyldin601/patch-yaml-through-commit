@@ -12,7 +12,7 @@ Below is a brief example on how the action can be used:
   with:
     git_repo_url: https://pldin601:${{ secrets.REPO_ACCESS_TOKEN }}@github.com/pldin601/some-repository
     committer_name: John Doe
-    comitter_email: doe@john.com
+    committer_email: doe@john.com
     commit_message: Update image for foo_service to myregistry.com/foo_service#{{ github.sha }}
     yaml_file: path/to/docker-compose.yml
     patch_expression: services.foo_service.image=myregistry.com/foo_service#{{ github.sha }}
