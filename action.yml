@@ -1,6 +1,6 @@
 name: patch-yaml-through-commit
 author: Roman Lakhtadyr <roman.lakhtadyr@gmail.com>
-description: A Github Action that allows to patch yaml files in other repository and commit changes.
+description: A Github Action that allows patching yaml files in the other repository and commit changes.
 inputs:
   git_repo_url:
     description: Git repository to connect.
