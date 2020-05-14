@@ -7,6 +7,4 @@ RUN chmod +x /yq
 
 COPY entrypoint.sh /entrypoint.sh
 
-WORKDIR /code
-
 ENTRYPOINT ["sh", "/entrypoint.sh"]

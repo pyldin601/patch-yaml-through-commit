@@ -16,6 +16,9 @@ if [ -z "$INPUT_COMMIT_MESSAGE" ] || [ -z "$INPUT_COMMITTER_NAME" ] || [ -z "$IN
     exit 1
 fi
 
+mkdir /code
+cd /code
+
 echo Cloning repository...
 git clone --quiet "${INPUT_GIT_REPO_URL}" .
 echo Patching yaml file...
