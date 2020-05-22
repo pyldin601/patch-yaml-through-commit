@@ -15,7 +15,9 @@ Below is a brief example on how the action can be used:
     committer_email: doe@john.com
     commit_message: Update image for foo_service to myregistry.com/foo_service#{{ github.sha }}
     yaml_file: path/to/docker-compose.yml
-    patch_expression: services.foo_service.image=myregistry.com/foo_service#{{ github.sha }}
+    patch_expression: |
+      services.foo_service.image=myregistry.com/foo_service#new_label
+      services.bar_service.image=myregistry.com/bar_service#new_label
 ```
 
 ## Inputs
@@ -38,7 +40,7 @@ Path to yaml file which should be patched (related to repository's root).
 
 ### `patch_expression`
 
-Comma-separated pairs of path.to.node=value expresions to patch.
+Pairs of path.to.node=value expresions to patch.
 
 ### `dry_run`
 
