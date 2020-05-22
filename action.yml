@@ -7,10 +7,12 @@ inputs:
     required: true
   committer_name:
     description: Name on whose behalf a commit will be made.
-    required: true
+    required: false
+    default: patch-yaml-through-commit
   committer_email:
     description: Email on whose behalf a commit will be made.
-    required: true
+    required: false
+    default: roman.lakhtadyr@gmail.com
   commit_message:
     description: Message for commit.
     required: true
