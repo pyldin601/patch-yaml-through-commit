@@ -23,11 +23,11 @@ echo Cloning repository...
 git clone --quiet "${INPUT_GIT_REPO_URL}" .
 echo Patching yaml file...
 
-(IFS=, && for expr in $INPUT_PATCH_EXPRESSION; do
+for expr in $INPUT_PATCH_EXPRESSION; do
   PATH="${expr%=*}"
   VALUE="${expr#*=}"
   /yq w --inplace "$INPUT_YAML_FILE" "$PATH" "$VALUE"
-done)
+done
 
 if [ -n "${INPUT_DRY_RUN}" ]; then
   git diff HEAD "$INPUT_YAML_FILE"
