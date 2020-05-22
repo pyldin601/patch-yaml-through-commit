@@ -20,9 +20,12 @@ mkdir /code
 cd /code
 
 echo Cloning repository...
-git clone --quiet "${INPUT_GIT_REPO_URL}" .
-echo Patching yaml file...
+git clone -b "${INPUT_GIT_BRANCH_FROM}" "${INPUT_GIT_REPO_URL}" .
 
+echo Switching to commit branch...
+git checkout -b "${INPUT_GIT_BRANCH_TO}"
+
+echo Patching yaml file...
 for expr in $INPUT_PATCH_EXPRESSION; do
   PATH="${expr%=*}"
   VALUE="${expr#*=}"
@@ -31,13 +34,20 @@ done
 
 if [ -n "${INPUT_DRY_RUN}" ]; then
   git diff HEAD "$INPUT_YAML_FILE"
-else
-  echo Adding patched file to commit...
-  git add "$INPUT_YAML_FILE"
-  git config user.name "$INPUT_COMMITTER_NAME"
-  git config user.email "$INPUT_COMMITTER_EMAIL"
-  echo Committing change...
-  git commit -m "$INPUT_COMMIT_MESSAGE"
-  echo Pushing...
-  git push
+  exit 0
 fi
+
+git config user.name "$INPUT_COMMITTER_NAME"
+git config user.email "$INPUT_COMMITTER_EMAIL"
+
+echo Adding patched file to commit...
+git add "$INPUT_YAML_FILE"
+
+echo Committing change...
+git commit -m "$INPUT_COMMIT_MESSAGE"
+
+echo Checking conflicts...
+git pull -s recursive -X theirs origin "${INPUT_GIT_BRANCH_TO}" || true
+
+echo Pushing...
+git push -u origin "${INPUT_GIT_BRANCH_TO}"

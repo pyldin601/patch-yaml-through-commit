@@ -5,6 +5,14 @@ inputs:
   git_repo_url:
     description: Git repository to connect.
     required: true
+  git_branch_from:
+    description: Git repository branch to checkout from.
+    required: false
+    default: master
+  git_branch_to:
+    description: Git repository branch to commit to.
+    required: false
+    default: master
   committer_name:
     description: Name on whose behalf a commit will be made.
     required: false
