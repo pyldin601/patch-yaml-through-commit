@@ -16,13 +16,15 @@ if [ -z "$INPUT_COMMIT_MESSAGE" ] || [ -z "$INPUT_COMMITTER_NAME" ] || [ -z "$IN
     exit 1
 fi
 
+echo "::debug::$(env)"
+
 mkdir /code
 cd /code
 
-echo Cloning repository...
+echo "::debug::Cloning repository..."
 git clone -b "${INPUT_GIT_BRANCH}" "${INPUT_GIT_REPO_URL}" .
 
-echo Patching yaml file...
+echo "::debug::Patching yaml file..."
 for expr in $INPUT_PATCH_EXPRESSION; do
   PATH="${expr%=*}"
   VALUE="${expr#*=}"
@@ -30,20 +32,20 @@ for expr in $INPUT_PATCH_EXPRESSION; do
 done
 
 if [ -n "${INPUT_DRY_RUN}" ]; then
-  echo Dry run
+  echo "::debug::Dry Run"
   git diff HEAD "$INPUT_YAML_FILE"
   exit 0
 fi
 
-echo Setting committer name and email...
+echo "::debug::Setting committer name and email..."
 git config user.name "$INPUT_COMMITTER_NAME"
 git config user.email "$INPUT_COMMITTER_EMAIL"
 
-echo Adding patched file to commit...
+echo "::debug::Adding patched file to commit..."
 git add "$INPUT_YAML_FILE"
 
-echo Committing change...
+echo "::debug::Committing change..."
 git commit -m "$INPUT_COMMIT_MESSAGE"
 
-echo Pushing...
+echo "::debug::Pushing..."
 git push
