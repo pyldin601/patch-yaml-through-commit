@@ -1,5 +1,5 @@
 #!/bin/sh
-set -e +u
+set -e +u -x
 
 if [ -z "$INPUT_GIT_REPO_URL" ]; then
     echo "Input git_repo_url is required!"
@@ -15,8 +15,6 @@ if [ -z "$INPUT_COMMIT_MESSAGE" ] || [ -z "$INPUT_COMMITTER_NAME" ] || [ -z "$IN
     echo "Input commit_message, committer_name and committer_email is required!"
     exit 1
 fi
-
-echo "::debug::$(env)"
 
 mkdir /code
 cd /code
@@ -37,7 +35,7 @@ if [ -n "${INPUT_DRY_RUN}" ]; then
   exit 0
 fi
 
-echo "::debug::Setting committer name and email..."
+echo "::debug::Setting committer name $INPUT_COMMITTER_NAME and email $INPUT_COMMITTER_EMAIL..."
 git config user.name "$INPUT_COMMITTER_NAME"
 git config user.email "$INPUT_COMMITTER_EMAIL"
 
