@@ -22,13 +22,11 @@ cd /code
 echo "::debug::Cloning repository..."
 git clone -b "${INPUT_GIT_BRANCH}" "${INPUT_GIT_REPO_URL}" .
 
-which git
-
 echo "::debug::Patching yaml file..."
 for expr in $INPUT_PATCH_EXPRESSION; do
-  PATH="${expr%=*}"
-  VALUE="${expr#*=}"
-  yq w --inplace "$INPUT_YAML_FILE" "$PATH" "$VALUE"
+  PATCH_PATH="${expr%=*}"
+  PATCH_VALUE="${expr#*=}"
+  yq w --inplace "$INPUT_YAML_FILE" "$PATCH_PATH" "$PATCH_VALUE"
 done
 
 if [ -n "${INPUT_DRY_RUN}" ]; then
@@ -38,7 +36,6 @@ if [ -n "${INPUT_DRY_RUN}" ]; then
 fi
 
 echo "::debug::Setting committer name and email..."
-which git
 git config user.name "$INPUT_COMMITTER_NAME"
 git config user.email "$INPUT_COMMITTER_EMAIL"
 
