@@ -1,5 +1,5 @@
 #!/bin/sh
-set -e +u
+set -e +u -x
 
 if [ -z "$INPUT_GIT_REPO_URL" ]; then
     echo "Input git_repo_url is required!"
@@ -16,19 +16,19 @@ if [ -z "$INPUT_COMMIT_MESSAGE" ] || [ -z "$INPUT_COMMITTER_NAME" ] || [ -z "$IN
     exit 1
 fi
 
-echo "::debug::$(env)"
-
 mkdir /code
 cd /code
 
 echo "::debug::Cloning repository..."
 git clone -b "${INPUT_GIT_BRANCH}" "${INPUT_GIT_REPO_URL}" .
 
+which git
+
 echo "::debug::Patching yaml file..."
 for expr in $INPUT_PATCH_EXPRESSION; do
   PATH="${expr%=*}"
   VALUE="${expr#*=}"
-  /yq w --inplace "$INPUT_YAML_FILE" "$PATH" "$VALUE"
+  yq w --inplace "$INPUT_YAML_FILE" "$PATH" "$VALUE"
 done
 
 if [ -n "${INPUT_DRY_RUN}" ]; then
@@ -38,6 +38,7 @@ if [ -n "${INPUT_DRY_RUN}" ]; then
 fi
 
 echo "::debug::Setting committer name and email..."
+which git
 git config user.name "$INPUT_COMMITTER_NAME"
 git config user.email "$INPUT_COMMITTER_EMAIL"
 
