@@ -11,11 +11,11 @@ Below is a brief example on how the action can be used:
   uses: pldin601/patch-yaml-through-commit
   with:
     git_repo_url: https://pldin601:${{ secrets.REPO_ACCESS_TOKEN }}@github.com/pldin601/some-repository
-    committer_name: John Doe
-    committer_email: doe@john.com
-    commit_message: Update image for foo_service to myregistry.com/foo_service#{{ github.sha }}
+    commit_message: Update images for specific services
     yaml_file: path/to/docker-compose.yml
-    patch_expression: services.foo_service.image=myregistry.com/foo_service#{{ github.sha }}
+    patch_expression: |
+      services.foo_service.image=myregistry.com/foo_service#new_label
+      services.bar_service.image=myregistry.com/bar_service#new_label
 ```
 
 ## Inputs
@@ -38,7 +38,7 @@ Path to yaml file which should be patched (related to repository's root).
 
 ### `patch_expression`
 
-Comma-separated pairs of path.to.node=value expresions to patch.
+Pairs of path.to.node=value expresions to patch.
 
 ### `dry_run`
 

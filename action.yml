@@ -5,12 +5,18 @@ inputs:
   git_repo_url:
     description: Git repository to connect.
     required: true
+  git_branch:
+    description: Git repository branch to checkout from.
+    required: false
+    default: master
   committer_name:
     description: Name on whose behalf a commit will be made.
-    required: true
+    required: false
+    default: John Doe
   committer_email:
     description: Email on whose behalf a commit will be made.
-    required: true
+    required: false
+    default: pldin601@gmail.com
   commit_message:
     description: Message for commit.
     required: true
@@ -18,7 +24,7 @@ inputs:
     description: Path to yaml file which should be patched (related to repository's root).
     required: true
   patch_expression:
-    description: Comma-separated pairs of path.to.node=value expresions to patch.
+    description: Space-separated pairs of path.to.node=value expresions to patch.
     required: true
   dry_run:
     description: If this parameter set, no commit will be made. Just generated diff.
