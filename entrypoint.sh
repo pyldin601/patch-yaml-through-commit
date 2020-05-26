@@ -20,10 +20,7 @@ mkdir /code
 cd /code
 
 echo Cloning repository...
-git clone -b "${INPUT_GIT_BRANCH_FROM}" "${INPUT_GIT_REPO_URL}" .
-
-echo Switching to commit branch...
-git checkout -b "${INPUT_GIT_BRANCH_TO}"
+git clone -b "${INPUT_GIT_BRANCH}" "${INPUT_GIT_REPO_URL}" .
 
 echo Patching yaml file...
 for expr in $INPUT_PATCH_EXPRESSION; do
@@ -46,8 +43,5 @@ git add "$INPUT_YAML_FILE"
 echo Committing change...
 git commit -m "$INPUT_COMMIT_MESSAGE"
 
-echo Checking conflicts...
-git pull -s recursive -X theirs origin "${INPUT_GIT_BRANCH_TO}" || true
-
 echo Pushing...
-git push -u origin "${INPUT_GIT_BRANCH_TO}"
+git push
