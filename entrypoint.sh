@@ -30,10 +30,12 @@ for expr in $INPUT_PATCH_EXPRESSION; do
 done
 
 if [ -n "${INPUT_DRY_RUN}" ]; then
+  echo Dry run
   git diff HEAD "$INPUT_YAML_FILE"
   exit 0
 fi
 
+echo Setting committer name and email...
 git config user.name "$INPUT_COMMITTER_NAME"
 git config user.email "$INPUT_COMMITTER_EMAIL"
 
